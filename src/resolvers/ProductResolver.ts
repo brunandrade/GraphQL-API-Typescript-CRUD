@@ -1,30 +1,60 @@
 import {Resolver, Query, Mutation, InputType, Arg, Field, Int} from 'type-graphql'
+import Category from '../models/Category';
 import Product from '../models/Product'
 
 @InputType()
-class ProductInput{
-    @Field()
-    Name!: string;
+class ProductUpdateInput{
+    @Field(() => String, {nullable: true})
+    Name?: string;
 
-    @Field(() => Int)
-    Quantity!: number;
+    @Field(() => Int, {nullable: true})
+    Quantity?: number;
 
-    @Field(() => Int)
-    CategoryId!: number;
+    @Field(() => Int, {nullable: true})
+    Category?: number;
 }
+
 
 @Resolver()
 export class ProductResolver{
 
-    @Mutation(()=> Product)
-    async createProduct(@Arg('data', () => ProductInput) data: ProductInput){
-        const product =  await Product.create(data).save();
-        return product;     
+    @Mutation(() => String)
+    async createProduct(
+        @Arg('Name') Name: string,
+        @Arg('Quantity', () => Int) Quantity: number,
+        @Arg('CategoryId', () => Int) CategoryId: number
+        ){
+       
+        await Product.create({Name, Quantity, CategoryId}).save();
+        return "Produto inserido com Sucesso!!";     
     }
 
-    @Query(()=> [Product])
-    products(){
-    return Product.find();
-}
+    @Mutation(() => String)
+    async updateProduct(
+        @Arg('Id', () => Int) Id: number,
+        @Arg('Name') Name: string,
+        @Arg('Quantity', () => Int) Quantity: number,
+        @Arg('CategoryId', () => Int) CategoryId: number
+        //@Arg('data', () => ProductUpdateInput) data: ProductUpdateInput
+        ){       
+        await Product.update({Id}, {Name, Quantity, CategoryId});
+        return "Produto atualizado com Sucesso!!";     
+    }
+
+    @Mutation(() => String)
+    async deleteProduct(@Arg('Id', () => Int) Id: number){
+        await Product.delete({Id});
+        return "Produto removido com Sucesso!!";     
+    }
+
+    @Query(() => [Product])
+        products(){
+        return Product.find();
+    }
+
+    // @Query(() => [Product])
+    // productsByCategory( @Arg('CategoryId', () => Int) CategoryId: number,){
+    // return Product.find({where: CategoryId.toString() });
+    // }
 
 }

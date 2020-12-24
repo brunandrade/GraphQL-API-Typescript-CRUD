@@ -4,6 +4,7 @@ import { Field, Int, ObjectType } from 'type-graphql'
 @ObjectType()
 @Entity('Product')
 class Product extends BaseEntity{
+    
     @Field(() => Int)
     @PrimaryGeneratedColumn('increment')   
     Id!: number;
