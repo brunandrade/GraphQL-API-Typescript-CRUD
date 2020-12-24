@@ -1,18 +1,17 @@
 import {Resolver, Query, Mutation, InputType, Arg, Field, Int} from 'type-graphql'
-import Category from '../models/Category';
 import Product from '../models/Product'
 
-@InputType()
-class ProductUpdateInput{
-    @Field(() => String, {nullable: true})
-    Name?: string;
+// @InputType()
+// class ProductUpdateInput{
+//     @Field(() => String, {nullable: true})
+//     Name?: string;
 
-    @Field(() => Int, {nullable: true})
-    Quantity?: number;
+//     @Field(() => Int, {nullable: true})
+//     Quantity?: number;
 
-    @Field(() => Int, {nullable: true})
-    Category?: number;
-}
+//     @Field(() => Int, {nullable: true})
+//     Category?: number;
+// }
 
 
 @Resolver()
